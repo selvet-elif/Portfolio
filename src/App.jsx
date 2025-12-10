@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Menu, X, ExternalLink, Code2, Database, Brain, TrendingUp } from 'lucide-react';
-import { IconHome } from '@tabler/icons-react';
+import { Github, Linkedin, Mail, Menu, X, ExternalLink, Code2, Database, Brain, TrendingUp, Code, CodeIcon } from 'lucide-react';
+import { IconBrandJavascript, IconBrandPython, IconBrandReact } from '@tabler/icons-react';
 import './App.css'; 
 import './index.css';
 
@@ -44,89 +44,47 @@ useEffect(() => {
 
   const projects = [
     {
-      title: "ML Prediction Model",
-      description: "Built a machine learning model using scikit-learn to predict customer churn with 92% accuracy.",
-      tags: ["Python", "ML", "Pandas", "Scikit-learn"],
+      title: "Lumina App",
+      description: "A simple Stellar-based tipping dApp that allows users to send small XLM donations to creators. ",
+      tags: ["React", "JavaScript", "StellarSDK", "Rust"],
       github: "#",
       demo: "#"
     },
     {
-      title: "Data Dashboard",
-      description: "Interactive data visualization dashboard for real-time analytics using React and D3.js.",
-      tags: ["React", "JavaScript", "Data Viz"],
+      title: "Library Managment System",
+      description: "A simple Library Management example project that includes a FastAPI-based REST API, and tests for OpenLibrary integration.",
+      tags: ["Python", "FastAPI"],
       github: "#",
       demo: "#"
     },
     {
-      title: "Portfolio Analytics",
-      description: "Automated data pipeline for ETL operations and comprehensive business intelligence reporting.",
-      tags: ["Python", "Data Analysis", "SQL"],
+      title: "Credit Card Approval ML Project",
+      description: "Credit card approval classifier using Random Forest, optimized with SMOTE and Optuna.",
+      tags: ["Python", "Data Science", "Machine Learning", "Jupyter Notebooks"],
       github: "#",
       demo: "#"
-    }
+    },
+    {
+      title: "Metro Route Optimizer",
+      description: "Metro pathfinding simulation using BFS and A* algorithms to optimize for transfers and travel time",
+      tags: ["Python", "Machine Learning", "Pandas", "Scikit-Learn"],
+      github: "#"
+    },
   ];
 
   const skills = [
-    { name: "Python", icon: Code2 },
-    { name: "Data Analysis", icon: TrendingUp },
-    { name: "Machine Learning", icon: Brain },
-    { name: "React & JavaScript", icon: Database } // Changed icon to be more representative
+    { name: "Python", icon: IconBrandPython },
+    { name: "Data Science", icon: Brain },
+    { name: "SQL", icon: Database },
+    { name: "JavaScript & React ", icon: IconBrandJavascript } // Changed icon to be more representative
   ];
-
-  // Tailwind CSS needs to be configured to include custom animations
-  // Add this to tailwind.config.js (or inside <style> for a single file demo)
-  
-
-  
+    
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white font-sans">
       {/* Styles for animations - needed for Tailwind animate-* classes */}
-      <style>{`
-        @keyframes slideDown {
-          from { transform: translateY(-100%); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes blob {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        @keyframes slideDown {
-          from { transform: translateY(-100%); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes blob {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-        .animate-slideDown { animation: slideDown 0.3s ease-out; }
-        .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
-        .animate-slideUp { animation: slideUp 0.5s ease-out forwards; }
-        .animate-blob { animation: blob 7s infinite; }
-        .animation-delay-200 { animation-delay: 200ms; }
-        .animation-delay-400 { animation-delay: 400ms; }
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
-      `}</style>
+      <style>`
+       </style>
       
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrollY > 50 ? 'bg-slate-950/95 shadow-lg shadow-purple-500/20' : 'bg-slate-950/80 backdrop-blur-sm'
@@ -266,7 +224,7 @@ useEffect(() => {
           </h2>
           <div className="h-1 w-24 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-12"></div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {projects.map((project, index) => (
               <div
                 key={project.title}
