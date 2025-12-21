@@ -1,37 +1,55 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Menu, X, ExternalLink, Code2, Database, Brain, TrendingUp, Code, CodeIcon } from 'lucide-react';
 import { IconBrandJavascript, IconBrandPython, IconBrandReact } from '@tabler/icons-react';
-import './App.css'; 
+import './App.css';
 import './index.css';
+import Lottie from 'lottie-react';
+import CodingWithCoffile from './assets/CodingWithCoffile.json';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [visibleSections, setVisibleSections] = useState(new Set());
+  
+  // New state to track mouse position
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-useEffect(() => {
-  const handleScroll = () => {
-    setScrollY(window.scrollY);
-
-    const sections = ['about', 'projects', 'contact'];
-    setVisibleSections(prev => {
-      const newVisibleSections = new Set(prev);
-      sections.forEach(sectionId => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const isVisible = rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
-          if (isVisible) newVisibleSections.add(sectionId);
-        }
+  // Effect that listens to mouse movement
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY,
       });
-      return newVisibleSections;
-    });
-  };
+    };
 
-  window.addEventListener('scroll', handleScroll);
-  handleScroll(); // run once on mount
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []); // 👈 run once only
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+
+      const sections = ['about', 'projects', 'contact'];
+      setVisibleSections(prev => {
+        const newVisibleSections = new Set(prev);
+        sections.forEach(sectionId => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
+            if (isVisible) newVisibleSections.add(sectionId);
+          }
+        });
+        return newVisibleSections;
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Run once on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []); 
 
 
   const scrollToSection = (sectionId) => {
@@ -47,28 +65,28 @@ useEffect(() => {
       title: "Lumina App",
       description: "A simple Stellar-based tipping dApp that allows users to send small XLM donations to creators. ",
       tags: ["React", "JavaScript", "StellarSDK", "Rust"],
-      github: "#",
-      demo: "#"
+      github: "https://github.com/selvet-elif/Lumina",
+      demo: "https://lumina-pink.vercel.app/"
     },
     {
       title: "Library Managment System",
       description: "A simple Library Management example project that includes a FastAPI-based REST API, and tests for OpenLibrary integration.",
       tags: ["Python", "FastAPI"],
-      github: "#",
+      github: "https://github.com/selvet-elif/Library_Project",
       demo: "#"
     },
     {
       title: "Credit Card Approval ML Project",
       description: "Credit card approval classifier using Random Forest, optimized with SMOTE and Optuna.",
       tags: ["Python", "Data Science", "Machine Learning", "Jupyter Notebooks"],
-      github: "#",
-      demo: "#"
+      github: "https://github.com/selvet-elif/Credit_Approval_ML_Project",
+      
     },
     {
       title: "Metro Route Optimizer",
       description: "Metro pathfinding simulation using BFS and A* algorithms to optimize for transfers and travel time",
       tags: ["Python", "Machine Learning", "Pandas", "Scikit-Learn"],
-      github: "#"
+      github: "https://github.com/selvet-elif/Metro_Route_Optimization_Project"
     },
   ];
 
@@ -76,15 +94,11 @@ useEffect(() => {
     { name: "Python", icon: IconBrandPython },
     { name: "Data Science", icon: Brain },
     { name: "SQL", icon: Database },
-    { name: "JavaScript & React ", icon: IconBrandJavascript } // Changed icon to be more representative
+    { name: "JavaScript & React ", icon: IconBrandJavascript } 
   ];
-    
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white font-sans">
-      {/* Styles for animations - needed for Tailwind animate-* classes */}
-      <style>`
-       </style>
       
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrollY > 50 ? 'bg-slate-950/95 shadow-lg shadow-purple-500/20' : 'bg-slate-950/80 backdrop-blur-sm'
@@ -138,11 +152,42 @@ useEffect(() => {
       </nav>
 
       <section id="hero" className="min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Animated Background Blobs */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        
+        {/* --- INTERACTIVE BACKGROUND BLOBS START --- */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            
+            {/* 1. GROUP: PURPLE */}
+            <div className="absolute top-[20%] left-[20%] transition-transform duration-200 ease-out"
+                 style={{ transform: `translate(${mousePosition.x * -0.05}px, ${mousePosition.y * 0.05}px)` }}
+            >
+              {/* Inner div handles animation only */}
+              <div className="w-96 h-96 bg-purple-400 rounded-full blur-[40px] opacity-60 animate-blob"></div>
+            </div>
+
+            {/* 2. GROUP: PINK */}
+            <div className="absolute top-[30%] right-[20%] transition-transform duration-200 ease-out"
+                 style={{ transform: `translate(${mousePosition.x * -0.06}px, ${mousePosition.y * -0.09}px)` }}
+            >
+               <div className="w-80 h-80 bg-pink-500 rounded-full blur-[40px] opacity-50 animate-blob animation-delay-2000"></div>
+            </div>
+
+            {/* 3. GROUP: BLUE */}
+            <div className="absolute bottom-[10%] left-[40%] transition-transform duration-200 ease-out"
+                 style={{ transform: `translate(${mousePosition.x * 0.04}px, ${mousePosition.y * 0.12}px)` }}
+            >
+               <div className="w-80 h-80 bg-blue-400 rounded-full blur-[40px] opacity-40 animate-blob animation-delay-4000"></div>
+            </div>
+
+        </div>
+        {/* --- INTERACTIVE BACKGROUND BLOBS END --- */}
+
+        {/* Lottie Animation: Fixed Bottom Right */}
+        <div className="fixed bottom-5 right-5 z-50 w-24 h-24 md:w-50 md:h-40">
+          <Lottie 
+            animationData={CodingWithCoffile} 
+            loop={true} 
+            className="w-full h-full" 
+          />
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10 animate-fadeIn">
@@ -303,7 +348,7 @@ useEffect(() => {
 
           <div className="flex flex-wrap justify-center gap-8">
             <a
-              href="https://github.com" // TODO: Add your GitHub link
+              href="https://github.com" 
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 p-6 bg-slate-800/50 backdrop-blur border border-purple-500/30 rounded-xl hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-110 transition-all duration-300"
@@ -315,7 +360,7 @@ useEffect(() => {
             </a>
 
             <a
-              href="https://linkedin.com" // TODO: Add your LinkedIn link
+              href="https://linkedin.com" 
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 p-6 bg-slate-800/50 backdrop-blur border border-purple-500/30 rounded-xl hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-110 transition-all duration-300"
@@ -327,7 +372,7 @@ useEffect(() => {
             </a>
 
             <a
-              href="mailto:your.email@example.com" // TODO: Add your email
+              href="mailto:your.email@example.com" 
               className="group flex flex-col items-center gap-3 p-6 bg-slate-800/50 backdrop-blur border border-purple-500/30 rounded-xl hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-110 transition-all duration-300"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-full flex items-center justify-center group-hover:from-purple-500 group-hover:to-pink-500 transition-all duration-300">
